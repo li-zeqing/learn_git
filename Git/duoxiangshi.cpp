@@ -21,7 +21,7 @@ void CreatePloyn(Polynomial &P,int n )
 		cin>>s->coef;	//输入系数
 		cout<<"请输入第"<<i<<"项指数";
 		cin>>s->expn;	//输入指数
-		PNode *pre = P;	//pre用于保存q的前驱，初值为头结点 
+		PNode *pre = P;	//pre用于保存q的前驱，初值为头结点P 
 		PNode *q = P->next;	//q初始化，指向首元结点 
 		//存储方式：([大][...][小])  
 		while(q && q->expn>s->expn)	//通过比较指数找到第一个大于输入项指数的项*q 
@@ -39,16 +39,18 @@ void ShowPoly(Polynomial P)
 	P = P->next;
 	while(P!=NULL)
 	{
-		
 		if(P->expn>0)
 		{
 			cout<<P->coef<<"x^"<<P->expn;
-			if(P->next->coef>0)
+			if(P->next)
+			{
+				if(P->next->coef>0)
 				cout<<"+";
+			}
 		}		
 		else
-			cout<<P->coef;
-	P = P->next;
+			cout<<P->coef;		
+		P = P->next;
 	}
 		
  } 	
@@ -83,42 +85,38 @@ void AddPolyn(Polynomial &Pa,Polynomial Pb)
 		
 		else if(p1->expn<p2->expn)	//Pa当前结点的指数较小时 
 		{
-
 			p2->next = p1;
 			p3->next = p2;
 			p3 = p3->next;
 			p2 = p2->next;
 			
 		}
-		
 		else	//Pa当前结点的指数较大时 
 		{
-
 			p1 = p1->next;
 			p3 = p3->next;
 		}
-	}
-	
+	}	
 //	p3->next = p1?p1:p2;	//正则表达式，当p1或者p2中为空时，插入非空多项式的剩余段
 	if(p1=NULL) p3->next = p2;
 	delete Pb;	//释放Pb的头结点 
-	
-	
-	
-	
-	
+
  } 
 
- 
 int main(){
 	Polynomial Pa;
 	Polynomial Pb;
+	int N1,N2; 
+	cout<<"请输入第一个多项式共有几项：N1=";
+	cin>>N1;
 	cout<<"请输入第一个多项式"<<'\n';
-	CreatePloyn(Pa,5);
+	CreatePloyn(Pa,N1);
 	ShowPoly(Pa);
 	cout<<'\n';
+	cout<<"请输入第二个多项式共有几项：N2=";
+	cin>>N2;
 	cout<<"请输入第二个多项式"<<'\n';
-	CreatePloyn(Pb,3);
+	CreatePloyn(Pb,N2);
 	ShowPoly(Pb);
 	AddPolyn(Pa,Pb);
 	cout<<'\n';
